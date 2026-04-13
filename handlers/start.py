@@ -5,17 +5,17 @@ from keyboards import main_menu
 
 router = Router()
 
+
 @router.message(Command("start"))
 async def cmd_start(message: Message):
     await message.answer(
-        "✨ Привет! Я бот для заказа персонализированных журналов в стиле Vogue.\n"
-        "Мы создаём уникальные подарки на любой праздник.\n\n"
-        "📸 Посмотри портфолио — ссылка в меню.\n"
-        "💰 Прайс — тоже там.\n\n"
-        "Нажми «Сделать заказ», чтобы начать ✨",
+        "🦢 Приветик! я бот для заказа индивидуального журнала по душе.\n"
+        "Мы создаем уникальные подарки так и важные воспоминания.\n\n"
+        "• Портфолио вместе с прайсом можно посмотреть по ссылке в меню.\n\n"
+        "Чтобы начать, нажми ”сделать заказ”",
         reply_markup=main_menu()
     )
-
+    
 @router.callback_query(F.data == "portfolio")
 async def portfolio(callback: CallbackQuery):
     await callback.message.answer(
