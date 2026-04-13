@@ -4,4 +4,4 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_IDS = [int(os.getenv("ADMIN_ID", "123456789"))]  # свой Telegram ID
+ADMIN_IDS = [6248994638, 5837238199]  # свой Telegram ID
