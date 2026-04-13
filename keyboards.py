@@ -10,37 +10,37 @@ def main_menu():
 
 def order_type_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🎂 На день рождения", callback_data="type_birthday")],
-        [InlineKeyboardButton(text="💍 На свадьбу", callback_data="type_wedding")],
-        [InlineKeyboardButton(text="🏢 Для бизнеса", callback_data="type_business")],
-        [InlineKeyboardButton(text="📸 Другое", callback_data="type_other")]
+        [InlineKeyboardButton(text="На день рождения 🍰", callback_data="type_birthday")],
+        [InlineKeyboardButton(text="Love story для важной даты 💌", callback_data="type_wedding")],
+        [InlineKeyboardButton(text="Просто для себя 🙏🏻", callback_data="type_business")],
+        [InlineKeyboardButton(text="Другое", callback_data="type_other")]
     ])
 
 def execution_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="✏️ Только дизайн (печатаю сам)", callback_data="exec_print_only")],
-        [InlineKeyboardButton(text="🚚 Полный цикл (дизайн+печать+доставка)", callback_data="exec_full")]
+        [InlineKeyboardButton(text="Только дизайн (печатаю сам)", callback_data="exec_print_only")],
+        [InlineKeyboardButton(text="Полный цикл (дизайн+печать+доставка)", callback_data="exec_full")]
     ])
 
 def extras_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🖼️ Постер +500₽", callback_data="extras_poster")],
-        [InlineKeyboardButton(text="🧲 Магнит +200₽", callback_data="extras_magnet")],
-        [InlineKeyboardButton(text="✨ Оба (постер+магнит) +600₽", callback_data="extras_both")],
-        [InlineKeyboardButton(text="❌ Нет, спасибо", callback_data="extras_none")]
+        [InlineKeyboardButton(text="постер А3 - 350₽", callback_data="extras_poster")],
+        [InlineKeyboardButton(text="постер А4 - 250₽", callback_data="extras_magnet")],
+        [InlineKeyboardButton(text="оба 500₽", callback_data="extras_both")],
+        [InlineKeyboardButton(text="нет, спасибо", callback_data="extras_none")]
     ])
 
 def confirm_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="✅ Подтвердить заказ", callback_data="confirm_order")],
-        [InlineKeyboardButton(text="✏️ Изменить", callback_data="edit_order")]
+        [InlineKeyboardButton(text="Подтвердить заказ", callback_data="confirm_order")],
+        [InlineKeyboardButton(text="Изменить", callback_data="edit_order")]
     ])
 
 def admin_panel():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="📋 Список заказов", callback_data="admin_orders")],
-        [InlineKeyboardButton(text="🏷️ Изменить статус", callback_data="admin_change_status")],
-        [InlineKeyboardButton(text="📦 Добавить трек-номер", callback_data="admin_add_tracking")]
+        [InlineKeyboardButton(text="Список заказов", callback_data="admin_orders")],
+        [InlineKeyboardButton(text="Изменить статус", callback_data="admin_change_status")],
+        [InlineKeyboardButton(text="Добавить трек-номер", callback_data="admin_add_tracking")]
     ])
 
 def status_list_keyboard(orders):
