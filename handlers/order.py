@@ -22,9 +22,9 @@ async def new_order(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(StateFilter(OrderStates.choosing_type), F.data.startswith("type_"))
 async def choose_type(callback: CallbackQuery, state: FSMContext):
     type_map = {
-        "type_birthday": "День рождения",
-        "type_wedding": "Свадьба",
-        "type_business": "Бизнес",
+        "type_birthday": "На день рождения",
+        "type_lovestory": "Love story (для важной даты влюбленным)",
+        "type_myself": "Просто для себя",
         "type_other": "Другое"
     }
     selected = type_map.get(callback.data)
@@ -62,9 +62,9 @@ async def choose_execution(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(StateFilter(OrderStates.choosing_extras), F.data.startswith("extras_"))
 async def choose_extras(callback: CallbackQuery, state: FSMContext):
     extras_map = {
-        "extras_poster": "Постер",
-        "extras_magnet": "Магнит",
-        "extras_both": "Постер+Магнит",
+        "extras_poster": "Постер А3 - 350 руб",
+        "extras_magnet": "Постер А4  - 250 руб",
+        "extras_both": "Оба - 500 руб",
         "extras_none": "Нет"
     }
     selected = extras_map.get(callback.data)
