@@ -19,8 +19,7 @@ async def cmd_start(message: Message):
 @router.callback_query(F.data == "portfolio")
 async def portfolio(callback: CallbackQuery):
     await callback.message.answer(
-        "📷 Наше портфолио:\nhttps://www.instagram.com/ваш_аккаунт/\n\n"
-        "Или примеры журналов: [ссылка на гугл-диск]"
+        "🦢 Наше портфолио- https://t.me/nkssmaz\n\n"
     )
     await callback.answer()
     
