@@ -3,9 +3,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 def main_menu():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="📖 Сделать заказ", callback_data="new_order")],
-        [InlineKeyboardButton(text="📷 Портфолио", callback_data="portfolio")],
-        [InlineKeyboardButton(text="ℹ️ Прайс", callback_data="price")],
-        [InlineKeyboardButton(text="📦 Статус заказа", callback_data="my_orders")]
+        [InlineKeyboardButton(text="Портфолио", callback_data="portfolio")],
+        [InlineKeyboardButton(text="Прайс", callback_data="price")],
+        [InlineKeyboardButton(text="Статус заказа", callback_data="my_orders")]
     ])
 
 def order_type_keyboard():
