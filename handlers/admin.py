@@ -1,3 +1,15 @@
+from aiogram import Router, F
+from aiogram.types import CallbackQuery
+from config import ADMIN_IDS
+from database import Database
+from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
+
+router = Router()
+db = Database()
+
+def is_admin(user_id: int) -> bool:
+    return user_id in ADMIN_IDS
+
 @router.callback_query(F.data == "admin_orders")
 async def admin_orders(callback: CallbackQuery):
     if not is_admin(callback.from_user.id):
