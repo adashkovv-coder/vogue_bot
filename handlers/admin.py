@@ -4,7 +4,7 @@ from config import ADMIN_IDS
 from database import Database
 from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
 
-router = Router()
+router = Router()          # <--- ЭТО БЫЛО ПРОПУЩЕНО
 db = Database()
 
 def is_admin(user_id: int) -> bool:
