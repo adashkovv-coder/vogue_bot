@@ -10,14 +10,12 @@ from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
 router = Router()
 db = Database()
 
-# Состояния для ввода трек-номера
 class TrackState(StatesGroup):
     waiting_for_tracking = State()
 
 def is_admin(user_id: int) -> bool:
     return user_id in ADMIN_IDS
 
-# Главная команда админа
 @router.message(Command("admin"))
 async def admin_cmd(message: Message):
     if not is_admin(message.from_user.id):
@@ -25,7 +23,6 @@ async def admin_cmd(message: Message):
         return
     await message.answer("👑 Панель администратора:", reply_markup=admin_panel())
 
-# Список заказов (выбор заказа)
 @router.callback_query(F.data == "admin_orders")
 async def admin_orders(callback: CallbackQuery):
     if not is_admin(callback.from_user.id):
@@ -41,7 +38,6 @@ async def admin_orders(callback: CallbackQuery):
     )
     await callback.answer()
 
-# Детали выбранного заказа и кнопки изменения статуса
 @router.callback_query(F.data.startswith("order_"))
 async def order_detail(callback: CallbackQuery):
     if not is_admin(callback.from_user.id):
@@ -52,7 +48,6 @@ async def order_detail(callback: CallbackQuery):
     if not order:
         await callback.answer("Заказ не найден")
         return
-    # order: (id, user_id, username, type, deadline, execution_option, extras, photos, texts, status, tracking, created_at)
     text = (
         f"📄 **Заказ #{order[0]}**\n"
         f"👤 Клиент: @{order[2]}\n"
@@ -72,22 +67,23 @@ async def order_detail(callback: CallbackQuery):
     )
     await callback.answer()
 
-# Изменение статуса
 @router.callback_query(F.data.startswith("set_status_"))
 async def set_status(callback: CallbackQuery):
     if not is_admin(callback.from_user.id):
         await callback.answer("⛔ Нет доступа", show_alert=True)
         return
-    parts = callback.data.split("_", 2)
-    if len(parts) != 3:
-        await callback.answer("Ошибка формата данных")
+    try:
+        parts = callback.data.split("_")
+        if len(parts) < 4:
+            await callback.answer("Ошибка формата данных")
+            return
+        order_id = int(parts[2])
+        new_status = parts[3]
+    except (IndexError, ValueError):
+        await callback.answer("Ошибка формата данных", show_alert=True)
         return
-    _, order_id_str, new_status = parts
-    order_id = int(order_id_str)
 
     db.update_status(order_id, new_status)
-
-    # Уведомить клиента
     order = db.get_order(order_id)
     if order:
         user_id = order[1]
@@ -98,14 +94,10 @@ async def set_status(callback: CallbackQuery):
                 parse_mode="Markdown"
             )
         except Exception:
-            pass  # клиент не начинал диалог
-
+            pass
     await callback.answer(f"✅ Статус заказа #{order_id} обновлён на {new_status}")
-
-    # Показать обновлённые детали заказа
     await order_detail(callback)
 
-# Запрос трек-номера (список заказов)
 @router.callback_query(F.data == "admin_add_tracking")
 async def ask_tracking(callback: CallbackQuery, state: FSMContext):
     if not is_admin(callback.from_user.id):
@@ -122,7 +114,6 @@ async def ask_tracking(callback: CallbackQuery, state: FSMContext):
     )
     await callback.answer()
 
-# Выбор заказа для трек-номера
 @router.callback_query(TrackState.waiting_for_tracking, F.data.startswith("order_"))
 async def select_order_for_tracking(callback: CallbackQuery, state: FSMContext):
     if not is_admin(callback.from_user.id):
@@ -135,7 +126,6 @@ async def select_order_for_tracking(callback: CallbackQuery, state: FSMContext):
     )
     await callback.answer()
 
-# Получение текста трек-номера
 @router.message(TrackState.waiting_for_tracking)
 async def receive_tracking(message: Message, state: FSMContext):
     if not is_admin(message.from_user.id):
@@ -148,8 +138,6 @@ async def receive_tracking(message: Message, state: FSMContext):
         return
     tracking = message.text.strip()
     db.update_tracking(order_id, tracking)
-
-    # Уведомить клиента
     order = db.get_order(order_id)
     if order:
         user_id = order[1]
@@ -161,6 +149,12 @@ async def receive_tracking(message: Message, state: FSMContext):
             )
         except Exception:
             pass
-
     await message.answer(f"✅ Трек-номер для заказа #{order_id} добавлен: {tracking}")
     await state.clear()
+
+@router.callback_query(F.data == "back_to_admin")
+async def back_to_admin(callback: CallbackQuery):
+    if not is_admin(callback.from_user.id):
+        await callback.answer("⛔ Нет доступа", show_alert=True)
+        return
+    await admin_orders(callback)
