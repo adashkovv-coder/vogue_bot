@@ -1,10 +1,15 @@
 from aiogram import Router, F
-from aiogram.types import CallbackQuery
+from aiogram.filters import Command
+from aiogram.types import CallbackQuery, Message
 from config import ADMIN_IDS
 from database import Database
 from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
-from aiogram.filters import Command   # добавь в импорт
-from aiogram.types import Message
+
+router = Router()          # <-- ЭТО БЫЛО ПРОПУЩЕНО
+db = Database()
+
+def is_admin(user_id: int) -> bool:
+    return user_id in ADMIN_IDS
 
 @router.message(Command("admin"))
 async def admin_cmd(message: Message):
@@ -12,12 +17,6 @@ async def admin_cmd(message: Message):
         await message.answer("⛔ У вас нет доступа.")
         return
     await message.answer("👑 Панель администратора:", reply_markup=admin_panel())
-
-router = Router()          # <--- ЭТО БЫЛО ПРОПУЩЕНО
-db = Database()
-
-def is_admin(user_id: int) -> bool:
-    return user_id in ADMIN_IDS
 
 @router.callback_query(F.data == "admin_orders")
 async def admin_orders(callback: CallbackQuery):
