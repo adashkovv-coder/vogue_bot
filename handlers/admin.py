@@ -3,6 +3,15 @@ from aiogram.types import CallbackQuery
 from config import ADMIN_IDS
 from database import Database
 from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
+from aiogram.filters import Command   # добавь в импорт
+from aiogram.types import Message
+
+@router.message(Command("admin"))
+async def admin_cmd(message: Message):
+    if not is_admin(message.from_user.id):
+        await message.answer("⛔ У вас нет доступа.")
+        return
+    await message.answer("👑 Панель администратора:", reply_markup=admin_panel())
 
 router = Router()          # <--- ЭТО БЫЛО ПРОПУЩЕНО
 db = Database()
