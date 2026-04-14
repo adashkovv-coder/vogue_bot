@@ -11,11 +11,11 @@ def main_menu():
 def order_type_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="На день рождения 🍰", callback_data="type_birthday")],
-        [InlineKeyboardButton(text="Love story для важной даты 💌", callback_data="type_wedding")],
-        [InlineKeyboardButton(text="Просто для себя 🙏🏻", callback_data="type_business")],
+        [InlineKeyboardButton(text="Love story для важной даты 💌", callback_data="type_lovestory")],
+        [InlineKeyboardButton(text="Просто для себя 🙏🏻", callback_data="type_myself")],
         [InlineKeyboardButton(text="Другое", callback_data="type_other")]
     ])
-
+    
 def execution_keyboard():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="Только дизайн (печатаю сам)", callback_data="exec_print_only")],
