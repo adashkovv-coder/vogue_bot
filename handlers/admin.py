@@ -5,7 +5,7 @@ from config import ADMIN_IDS
 from database import Database
 from keyboards import admin_panel, status_list_keyboard, status_change_keyboard
 
-router = Router()          # <-- ЭТО БЫЛО ПРОПУЩЕНО
+router = Router()          # <-- ЭТО ГЛАВНОЕ, ЧЕГО НЕ ХВАТАЛО
 db = Database()
 
 def is_admin(user_id: int) -> bool:
@@ -30,7 +30,6 @@ async def admin_orders(callback: CallbackQuery):
 
     text = "📋 **Список заказов:**\n\n"
     for order in orders:
-        # order: id, user_id, username, type, deadline, execution_option, extras, photos, texts, status, tracking
         text += (
             f"*{order[0]}* | @{order[2]}\n"
             f"  📖 {order[3]} | ⏰ {order[4]}\n"
